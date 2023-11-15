@@ -19,39 +19,39 @@ namespace WebAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Event>>> GetEvents()
         {
-            var events = await _eventService.GetEvents();
+            var events = await _eventService.GetEventsAsync();
             return Ok(events);
         }
 
         [HttpGet("{eventId}")]
         public async Task<ActionResult<Event>> GetEvent(Guid eventId)
         {
-            var eventItem = await _eventService.GetEventById(eventId);
+            var eventItem = await _eventService.GetEventByIdAsync(eventId);
             if (eventItem == null)
             {
                 return NotFound();
             }
 
-            return eventItem;
+            return Ok(eventItem);
         }
 
         [HttpPost]
         public async Task<ActionResult<Event>> CreateEvent(Event eventItem)
         {
-            await _eventService.CreateEvent(eventItem);
+            await _eventService.CreateEventAsync(eventItem);
             return CreatedAtAction(nameof(GetEvent), new { eventId = eventItem.Id }, eventItem);
         }
 
         [HttpPut("{eventId}")]
         public async Task<ActionResult> UpdateEvent(Event eventItem)
         {
-            var eventExist = await _eventService.GetEventById(eventItem.Id);
+            var eventExist = await _eventService.GetEventByIdAsync(eventItem.Id);
             if (eventExist == null)
             {
                 return NotFound();
             }
 
-            await _eventService.UpdateEvent(eventItem);
+            await _eventService.UpdateEventAsync(eventItem);
 
             return NoContent();
         }
@@ -59,14 +59,14 @@ namespace WebAPI.Controllers
         [HttpDelete("{eventId}")]
         public async Task<IActionResult> DeleteEvent(Guid eventId)
         {
-            var eventItem = await _eventService.GetEventById(eventId);
+            var eventItem = await _eventService.GetEventByIdAsync(eventId);
 
             if (eventItem == null)
             {
                 return NotFound();
             }
 
-            await _eventService.DeleteEvent(eventId);
+            await _eventService.DeleteEventAsync(eventId);
 
             return NoContent();
         }

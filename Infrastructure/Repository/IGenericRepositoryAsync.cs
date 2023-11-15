@@ -1,5 +1,6 @@
 ﻿using Domain.Entities.Abstract;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -8,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repository
 {
-    public interface IGenericRepositoryAsync<TEntity>
-        where TEntity : class, IEntity, new()
+    public interface IGenericRepositoryAsync<T>
+        where T : class, IEntity, new()
     {
-        public Task AddAsync(TEntity entity);
-        public Task DeleteAsync(TEntity entity);
-        public Task UpdateAsync(TEntity entity);
-        public Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> filter = null!);
-        public Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> filter);
+        Task AddAsync(T entity);
+        Task UpdateAsync(T entity);
+        Task DeleteAsync(T entity);
+        public Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? predicate = null, CancellationToken cancellationToken = default);
+        public Task<T?> GetAsync(Expression<Func<T, bool>> predicate);
     }
 }

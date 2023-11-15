@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Domain;
+using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace Application.Services
 {
     public interface IEventService
     {
-        public Task CreateEvent(Event eventItem);
-        public Task DeleteEvent(Guid id);
-        public Task UpdateEvent(Event eventItem);
-        public Task<Event> GetEventById(Guid id);
-        public Task<List<Event>> GetEvents();
+        public Task<ICommandResult> CreateEventAsync(Event eventItem);
+        public Task<ICommandResult> DeleteEventAsync(Guid id);
+        public Task<ICommandResult> UpdateEventAsync(Event eventItem);
+        public Task<ICommandResult<Event>> GetEventByIdAsync(Guid id);
+        public Task<ICommandResult<IEnumerable<Event>>> GetEventsAsync();
     }
 }

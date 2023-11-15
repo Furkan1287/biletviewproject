@@ -13,7 +13,7 @@ namespace Infrastructure.Repository
         where TEntity : class, IEntity, new()
 
     {
-        private readonly ApplicationDbContext _context;
+        readonly ApplicationDbContext _context;
 
         public GenericRepositoryBaseAsync(ApplicationDbContext context)
         {
@@ -22,33 +22,31 @@ namespace Infrastructure.Repository
 
         public async Task AddAsync(TEntity entity)
         {
-            await _context.AddAsync(entity);
+            _context.Entry(entity).State = EntityState.Added;
             await _context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(TEntity entity)
         {
-            var removedEntity = _context.Remove(entity);
-            removedEntity.State = EntityState.Deleted;
+            _context.Entry(entity).State = EntityState.Deleted;
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> filter = null!)
+        public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? predicate = null, CancellationToken cancellationToken = default)
         {
-            return await (filter == null ?
+            return await (predicate == null ?
                    _context.Set<TEntity>().ToListAsync() :
-                   _context.Set<TEntity>().Where(filter).ToListAsync());
+                   _context.Set<TEntity>().Where(predicate).ToListAsync(cancellationToken));
         }
 
-        public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> filter)
+        public async Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return await _context.Set<TEntity>().Where(filter).SingleOrDefaultAsync();
+            return await _context.Set<TEntity>().FirstOrDefaultAsync(predicate);
         }
 
         public async Task UpdateAsync(TEntity entity)
         {
-            var updatedEntity = _context.Update(entity);
-            updatedEntity.State = EntityState.Modified;
+            _context.Entry(entity).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
     }
