@@ -1,9 +1,13 @@
-﻿using Shared.Entities;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using Domain.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Domain.Entities
+namespace Domain.DTOs
 {
-    public class Event : BaseEntity
+    public class EventRequestDto
     {
         public string Name { get; set; }
         public string Description { get; set; }
@@ -11,26 +15,21 @@ namespace Domain.Entities
         public DateTime EndDate { get; set; }
         public int TicketCount { get; set; }
         public bool IsFree { get; set; }
-        [NotMapped]
         public IEnumerable<byte[]>? Images { get; set; }
         public Guid CategoryId { get; set; }
         public Guid OrganizerId { get; set; }
         public Guid VenueId { get; set; }
-        public Category? Category { get; set; }
-        public Organizer? Organizer { get; set; }
-        public Venue? Venue { get; set; }
     }
-
-    public class SeatedEvent : Event
+    
+    public class SeatedEventRequestDto : EventRequestDto
     {
         public IEnumerable<Seat>? Seats { get; set; }
         public bool IsSeatedEvent { get => true; }
     }
 
-    public class StandingEvent : Event
+    public class StandingEventRequestDto : EventRequestDto
     {
         public decimal? Price { get; set; }
         public bool IsSeatedEvent { get => false; }
     }
-
 }

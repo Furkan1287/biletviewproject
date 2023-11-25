@@ -16,12 +16,20 @@ namespace Infrastructure
 
         }
         public DbSet<Event> Events { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Organizer> Organizers { get; set; }
+        public DbSet<Seat> Seats { get; set; }
         public DbSet<Venue> Venues { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new EventTypeEntityConfiguration());
-            modelBuilder.ApplyConfiguration(new VenueTypeEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new CategoryEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new OrganizerEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new SeatEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new VenueEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new EventEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new SeatedEventEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new StandingEventEntityTypeConfiguration());
         }
     }
 }

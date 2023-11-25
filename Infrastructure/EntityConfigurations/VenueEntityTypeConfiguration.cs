@@ -9,13 +9,12 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.EntityConfigurations
 {
-    public class VenueTypeEntityConfiguration
+    public class VenueEntityTypeConfiguration
         : IEntityTypeConfiguration<Venue>
     {
         public void Configure(EntityTypeBuilder<Venue> builder)
         {
             builder.ToTable("Venues");
-
             builder.HasKey(v => v.Id);
         }
     }

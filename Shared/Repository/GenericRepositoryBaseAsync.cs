@@ -1,21 +1,17 @@
-﻿using Domain.Entities.Abstract;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.EntityFrameworkCore;
+using Shared.Entities;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Infrastructure.Repository
+namespace Shared.Repository
 {
-    public class GenericRepositoryBaseAsync<TEntity> : IGenericRepositoryAsync<TEntity>
+    public class GenericRepositoryBaseAsync<TEntity, TContext> : IGenericRepositoryAsync<TEntity>
         where TEntity : class, IEntity, new()
+        where TContext : DbContext
 
     {
-        readonly ApplicationDbContext _context;
+        readonly TContext _context;
 
-        public GenericRepositoryBaseAsync(ApplicationDbContext context)
+        public GenericRepositoryBaseAsync(TContext context)
         {
             _context = context;
         }
@@ -32,10 +28,10 @@ namespace Infrastructure.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? predicate = null, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<TEntity>> GetAllAsync(/*Expression<Func<TEntity, object>>[] includes,*/ Expression<Func<TEntity, bool>>? predicate = null, CancellationToken cancellationToken = default)
         {
             return await (predicate == null ?
-                   _context.Set<TEntity>().ToListAsync() :
+                   _context.Set<TEntity>()./*Include(_=>includes).*/ToListAsync() :
                    _context.Set<TEntity>().Where(predicate).ToListAsync(cancellationToken));
         }
 
