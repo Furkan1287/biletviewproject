@@ -37,15 +37,19 @@ namespace WebAPI.Controllers.Event
         }
 
         [HttpPost]
-        public async Task<ActionResult<SeatedEvent>> CreateSeatedEvent(SeatedEventRequestDto eventItem)
+        public async Task<IActionResult> CreateSeatedEvent([FromForm]List<IFormFile> files, [FromForm] SeatedEventCreateDto eventItem)
         {
             
-            var result = await _seatedEventService.CreateEventAsync(eventItem);
-            return CreatedAtAction("Created", eventItem);
+            var result = await _seatedEventService.CreateEventAsync(files, eventItem);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
 
         [HttpPut("{eventId}")]
-        public async Task<ActionResult> UpdateSeatedEvent(SeatedEvent eventItem)
+        public async Task<IActionResult> UpdateSeatedEvent(SeatedEvent eventItem)
         {
             var eventExist = await _seatedEventService.GetEventByIdAsync(eventItem.Id);
             if (eventExist == null)
@@ -53,9 +57,12 @@ namespace WebAPI.Controllers.Event
                 return NotFound();
             }
 
-            await _seatedEventService.UpdateEventAsync(eventItem);
-
-            return Ok();
+            var result = await _seatedEventService.UpdateEventAsync(eventItem);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
 
         [HttpDelete("{eventId}")]
@@ -68,9 +75,12 @@ namespace WebAPI.Controllers.Event
                 return NotFound();
             }
 
-            await _seatedEventService.DeleteEventAsync(eventId);
-
-            return Ok();
+            var result = await _seatedEventService.DeleteEventAsync(eventId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
         #endregion
     }

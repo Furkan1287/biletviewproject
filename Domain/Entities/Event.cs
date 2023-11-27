@@ -16,13 +16,17 @@ namespace Domain.Entities
         public Guid CategoryId { get; set; }
         public Guid OrganizerId { get; set; }
         public Guid VenueId { get; set; }
+        [NotMapped]
         public Category? Category { get; set; }
+        [NotMapped]
         public Organizer? Organizer { get; set; }
+        [NotMapped]
         public Venue? Venue { get; set; }
     }
 
     public class SeatedEvent : Event
     {
+        [Column(TypeName = "jsonb")]
         public IEnumerable<Seat>? Seats { get; set; }
         public bool IsSeatedEvent { get => true; }
     }

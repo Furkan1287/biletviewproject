@@ -4,7 +4,6 @@ namespace Domain.Entities
 {
     public class Seat
     {
-        [Key]
         public int SeatNumber { get; set; }
         public SeatType SeatType { get; set; }
         public decimal? SeatPrice { get; set; }

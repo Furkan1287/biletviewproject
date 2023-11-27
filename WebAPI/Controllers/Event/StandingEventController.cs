@@ -1,6 +1,8 @@
 ﻿using Application.Services;
+using Domain.DTOs;
 using Domain.Entities;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers.Event
@@ -37,14 +39,18 @@ namespace WebAPI.Controllers.Event
         }
 
         [HttpPost]
-        public async Task<ActionResult<StandingEvent>> CreateStandingEvent(StandingEvent eventItem)
+        public async Task<IActionResult> CreateStandingEvent([FromQuery] List<IFormFile> files, StandingEventCreateDto eventItem)
         {
-            await _standingEventService.CreateEventAsync(eventItem);
-            return CreatedAtAction(nameof(GetStandingEvent), new { eventId = eventItem.Id }, eventItem);
+            var result = await _standingEventService.CreateEventAsync(files, eventItem);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
 
         [HttpPut("{eventId}")]
-        public async Task<ActionResult> UpdateStandingEvent(StandingEvent eventItem)
+        public async Task<IActionResult> UpdateStandingEvent(StandingEvent eventItem)
         {
             var eventExist = await _standingEventService.GetEventByIdAsync(eventItem.Id);
             if (eventExist == null)
@@ -52,9 +58,12 @@ namespace WebAPI.Controllers.Event
                 return NotFound();
             }
 
-            await _standingEventService.UpdateEventAsync(eventItem);
-
-            return Ok();
+            var result = await _standingEventService.UpdateEventAsync(eventItem);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
 
         [HttpDelete("{eventId}")]
@@ -67,9 +76,13 @@ namespace WebAPI.Controllers.Event
                 return NotFound();
             }
 
-            await _standingEventService.DeleteEventAsync(eventId);
+            var result = await _standingEventService.DeleteEventAsync(eventId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
 
-            return Ok();
+            return BadRequest(result);
         }
         #endregion
     }

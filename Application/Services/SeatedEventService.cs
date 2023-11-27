@@ -1,13 +1,15 @@
-﻿using Domain;
+﻿using AutoMapper;
+using Domain;
 using Domain.DTOs;
 using Domain.Entities;
+using Microsoft.AspNetCore.Http;
 using Shared.Repository;
 
 namespace Application.Services
 {
     public interface ISeatedEventService
     {
-        public Task<ICommandResult> CreateEventAsync(SeatedEventRequestDto eventItem);
+        public Task<ICommandResult> CreateEventAsync(List<IFormFile>? files, SeatedEventCreateDto eventItem);
         public Task<ICommandResult> DeleteEventAsync(Guid id);
         public Task<ICommandResult> UpdateEventAsync(SeatedEvent eventItem);
         public Task<ICommandResult<SeatedEvent>> GetEventByIdAsync(Guid id);
@@ -17,28 +19,78 @@ namespace Application.Services
     public class SeatedEventService : ISeatedEventService
     {
         readonly IGenericRepositoryAsync<SeatedEvent> _seatedEventRepository;
+        readonly IMapper _mapper;
 
-        public SeatedEventService(IGenericRepositoryAsync<SeatedEvent> seatedEventRepository)
+        public SeatedEventService(IGenericRepositoryAsync<SeatedEvent> seatedEventRepository, IMapper mapper)
         {
             _seatedEventRepository = seatedEventRepository;
+            _mapper = mapper;
         }
 
-        public async Task<ICommandResult> CreateEventAsync(SeatedEventRequestDto eventItem)
+        public async Task<ICommandResult> CreateEventAsync(List<IFormFile>? files, SeatedEventCreateDto eventItem)
         {
-            var entity = new SeatedEvent
+            var entity = _mapper.Map<SeatedEvent>(eventItem);
+
+            if (files?.Count > 0)
             {
-                CategoryId = eventItem.CategoryId,
-                OrganizerId = eventItem.OrganizerId,
-                VenueId = eventItem.VenueId,
-                Name = eventItem.Name,
-                Description = eventItem.Description,
-                StartDate = eventItem.StartDate,
-                EndDate = eventItem.EndDate,
-                IsFree = eventItem.IsFree,
-                TicketCount = eventItem.TicketCount,
-                Seats = eventItem.Seats,
-                Images = eventItem.Images
+                var images = new List<byte[]>();
+
+                foreach (var file in files)
+                {
+                    images.Add(Shared.Helper.ImageHelper.ImageToByteArray(file));
+                }
+                entity.Images = images;
+            }
+            
+            if (!eventItem.IsFree)
+            {
+                var totalSeatCount = (eventItem.VIPSeatCount + eventItem.PremiumSeatCount + eventItem.DisabledSeatCount + eventItem.StudentSeatCount + eventItem.StandartSeatCount);
+                if (totalSeatCount != eventItem.TicketCount)
+                {
+                    return new ErrorCommandResult("Bilet sayısı ile koltuk sayısı aynı olmalıdır.");
+                }
+                var seats = new List<Seat>();
+
+                int[] seatCounts = {
+                eventItem.VIPSeatCount,
+                eventItem.PremiumSeatCount,
+                eventItem.DisabledSeatCount,
+                eventItem.StandartSeatCount,
+                eventItem.StudentSeatCount
             };
+                decimal?[] seatPrices = {
+                eventItem.VIPSeatPrice,
+                eventItem.PremiumSeatPrice,
+                eventItem.DisabledSeatPrice,
+                eventItem.StandartSeatPrice,
+                eventItem.StudentSeatPrice
+            };
+                SeatType[] seatTypes = {
+                    SeatType.VIP,
+                    SeatType.Premium,
+                    SeatType.Disabled,
+                    SeatType.Standart,
+                    SeatType.Student
+                };
+
+                int seatNumber = 1;
+
+                for (int i = 0; i < seatCounts.Length; i++)
+                {
+                    for (int j = 1; j <= seatCounts[i]; j++)
+                    {
+                        seats.Add(new Seat()
+                        {
+                            SeatNumber = seatNumber++,
+                            SeatType = seatTypes[i],
+                            SeatPrice = seatPrices[i]
+                        });
+                    }
+                }
+
+                entity.Seats = seats;
+            }
+
             await _seatedEventRepository.AddAsync(entity);
             return new SuccessCommandResult();
         }

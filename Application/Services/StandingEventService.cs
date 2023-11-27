@@ -1,12 +1,15 @@
-﻿using Domain;
+﻿using AutoMapper;
+using Domain;
+using Domain.DTOs;
 using Domain.Entities;
+using Microsoft.AspNetCore.Http;
 using Shared.Repository;
 
 namespace Application.Services
 {
     public interface IStandingEventService
     {
-        public Task<ICommandResult> CreateEventAsync(StandingEvent eventItem);
+        public Task<ICommandResult> CreateEventAsync(List<IFormFile>? files, StandingEventCreateDto eventItem);
         public Task<ICommandResult> DeleteEventAsync(Guid id);
         public Task<ICommandResult> UpdateEventAsync(StandingEvent eventItem);
         public Task<ICommandResult<StandingEvent>> GetEventByIdAsync(Guid id);
@@ -16,15 +19,33 @@ namespace Application.Services
     public class StandingEventService : IStandingEventService
     {
         private readonly IGenericRepositoryAsync<StandingEvent> _standingEventRepository;
+        readonly IMapper _mapper;
 
-        public StandingEventService(IGenericRepositoryAsync<StandingEvent> standingEventRepository)
+        public StandingEventService(IGenericRepositoryAsync<StandingEvent> standingEventRepository, IMapper mapper)
         {
             _standingEventRepository = standingEventRepository;
+            _mapper = mapper;
         }
 
-        public async Task<ICommandResult> CreateEventAsync(StandingEvent eventItem)
+        public async Task<ICommandResult> CreateEventAsync(List<IFormFile>? files, StandingEventCreateDto eventItem)
         {
-            await _standingEventRepository.AddAsync(eventItem);
+            var entity = _mapper.Map<StandingEvent>(eventItem);
+
+            if (files?.Count > 0)
+            {
+                var images = new List<byte[]>();
+
+                foreach (var file in files)
+                {
+                    images.Add(Shared.Helper.ImageHelper.ImageToByteArray(file));
+                }
+                entity.Images = images;
+            }
+            if (eventItem.IsFree)
+            {
+                entity.Price = null;
+            }
+            await _standingEventRepository.AddAsync(entity);
             return new SuccessCommandResult();
         }
 
