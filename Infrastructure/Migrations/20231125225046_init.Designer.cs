@@ -5,6 +5,7 @@ using Domain.Entities;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -13,9 +14,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231125225046_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,14 +43,6 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("a19a302e-7e34-4336-8693-f7ddeda86e3c"),
-                            CategoryName = "TEST_Category",
-                            CreatedDate = new DateTime(2023, 11, 26, 8, 4, 52, 827, DateTimeKind.Utc).AddTicks(78)
-                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Event", b =>
@@ -117,14 +112,6 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Organizers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("eab991b2-ed5b-4117-8e2b-4789863928ef"),
-                            CreatedDate = new DateTime(2023, 11, 26, 8, 4, 52, 827, DateTimeKind.Utc).AddTicks(76),
-                            OrganizerName = "TEST_Organizer"
-                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Venue", b =>
@@ -155,17 +142,6 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Venues", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("29f54e61-2127-4baa-9564-9106e05b15ca"),
-                            CreatedDate = new DateTime(2023, 11, 26, 8, 4, 52, 827, DateTimeKind.Utc).AddTicks(73),
-                            District = "TEST_District",
-                            GoogleMapsSrc = "TEST_GoogleMapsSrc",
-                            Province = "TEST_Province",
-                            VenueName = "TEST_Venue"
-                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.SeatedEvent", b =>

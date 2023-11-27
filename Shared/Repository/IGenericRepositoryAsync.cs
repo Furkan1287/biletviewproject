@@ -1,13 +1,7 @@
-﻿using Domain.Entities.Abstract;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Shared.Entities;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Infrastructure.Repository
+namespace Shared.Repository
 {
     public interface IGenericRepositoryAsync<T>
         where T : class, IEntity, new()
