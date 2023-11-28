@@ -1,8 +1,6 @@
 ﻿using Application.Services;
 using Domain.DTOs;
 using Domain.Entities;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers.Event
@@ -39,9 +37,9 @@ namespace WebAPI.Controllers.Event
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateStandingEvent([FromQuery] List<IFormFile> files, StandingEventCreateDto eventItem)
+        public async Task<IActionResult> CreateStandingEvent(/*[FromQuery] List<IFormFile> files,*/ StandingEventCreateDto eventItem)
         {
-            var result = await _standingEventService.CreateEventAsync(files, eventItem);
+            var result = await _standingEventService.CreateEventAsync(/*files,*/ eventItem);
             if (result.Success)
             {
                 return Ok(result);

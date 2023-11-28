@@ -7,13 +7,18 @@ using Shared.Repository;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddScoped<ISeatedEventService, SeatedEventService>();
-builder.Services.AddScoped<IStandingEventService, StandingEventService>();
-builder.Services.AddScoped<IEventService, EventService>();
 
-builder.Services.AddScoped<IGenericRepositoryAsync<SeatedEvent>, GenericRepositoryBaseAsync<SeatedEvent, ApplicationDbContext>>();
-builder.Services.AddScoped<IGenericRepositoryAsync<StandingEvent>, GenericRepositoryBaseAsync<StandingEvent, ApplicationDbContext>>();
+builder.Services.AddScoped<IEventService, EventService>();
 builder.Services.AddScoped<IGenericRepositoryAsync<Event>, GenericRepositoryBaseAsync<Event, ApplicationDbContext>>();
+
+builder.Services.AddScoped<ISeatedEventService, SeatedEventService>();
+builder.Services.AddScoped<IGenericRepositoryAsync<SeatedEvent>, GenericRepositoryBaseAsync<SeatedEvent, ApplicationDbContext>>();
+
+builder.Services.AddScoped<IStandingEventService, StandingEventService>();
+builder.Services.AddScoped<IGenericRepositoryAsync<StandingEvent>, GenericRepositoryBaseAsync<StandingEvent, ApplicationDbContext>>();
+
+builder.Services.AddScoped<IEventImageService, EventImageService>();
+builder.Services.AddScoped<IGenericRepositoryAsync<EventImage>, GenericRepositoryBaseAsync<EventImage, ApplicationDbContext>>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

@@ -5,6 +5,7 @@ using Domain.Entities;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -13,9 +14,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231128054516_event-image-model")]
+    partial class eventimagemodel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,9 +47,9 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a810e92a-6b48-4365-b32d-93bd6e039336"),
+                            Id = new Guid("2bc4f95a-a7a7-46e6-ad89-85ff47a99991"),
                             CategoryName = "TEST_Category",
-                            CreatedDate = new DateTime(2023, 11, 28, 5, 48, 5, 534, DateTimeKind.Utc).AddTicks(6894)
+                            CreatedDate = new DateTime(2023, 11, 28, 5, 45, 16, 85, DateTimeKind.Utc).AddTicks(3013)
                         });
                 });
 
@@ -144,8 +147,8 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("b44c0bad-3aba-4d51-8d51-dade04a83fde"),
-                            CreatedDate = new DateTime(2023, 11, 28, 5, 48, 5, 534, DateTimeKind.Utc).AddTicks(6891),
+                            Id = new Guid("38afd218-4104-4f23-9241-a7ee890e3448"),
+                            CreatedDate = new DateTime(2023, 11, 28, 5, 45, 16, 85, DateTimeKind.Utc).AddTicks(3011),
                             OrganizerName = "TEST_Organizer"
                         });
                 });
@@ -182,8 +185,8 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("36983bfe-0713-49e0-9452-2fb96de72796"),
-                            CreatedDate = new DateTime(2023, 11, 28, 5, 48, 5, 534, DateTimeKind.Utc).AddTicks(6875),
+                            Id = new Guid("21cd2639-4d21-47b3-8bf6-c78e77122a0e"),
+                            CreatedDate = new DateTime(2023, 11, 28, 5, 45, 16, 85, DateTimeKind.Utc).AddTicks(3004),
                             District = "TEST_District",
                             GoogleMapsSrc = "TEST_GoogleMapsSrc",
                             Province = "TEST_Province",

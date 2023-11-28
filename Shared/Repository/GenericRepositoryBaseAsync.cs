@@ -28,10 +28,10 @@ namespace Shared.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync(/*Expression<Func<TEntity, object>>[] includes,*/ Expression<Func<TEntity, bool>>? predicate = null, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<TEntity>> GetAllAsync( Expression<Func<TEntity, bool>>? predicate = null, CancellationToken cancellationToken = default)
         {
             return await (predicate == null ?
-                   _context.Set<TEntity>()./*Include(_=>includes).*/ToListAsync() :
+                   _context.Set<TEntity>().ToListAsync() :
                    _context.Set<TEntity>().Where(predicate).ToListAsync(cancellationToken));
         }
 

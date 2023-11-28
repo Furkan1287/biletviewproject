@@ -1,11 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Domain
+﻿namespace Shared.Utils.Result
 {
     public interface ICommandResult
     {
@@ -72,11 +65,10 @@ namespace Domain
 
     public class ErrorCommandResult<T> : CommandResult<T>
     {
-        public ErrorCommandResult(T data, string message): base(data, false, message) { }
+        public ErrorCommandResult(T data, string message) : base(data, false, message) { }
         public ErrorCommandResult(T data) : base(data, false) { }
-        public ErrorCommandResult(string message) : base (default, false, message) { }
-        public ErrorCommandResult() :base(default, false) { }
+        public ErrorCommandResult(string message) : base(default, false, message) { }
+        public ErrorCommandResult() : base(default, false) { }
     }
     #endregion
-
 }

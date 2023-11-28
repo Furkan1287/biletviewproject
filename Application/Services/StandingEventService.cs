@@ -1,15 +1,14 @@
 ﻿using AutoMapper;
-using Domain;
 using Domain.DTOs;
 using Domain.Entities;
-using Microsoft.AspNetCore.Http;
 using Shared.Repository;
+using Shared.Utils.Result;
 
 namespace Application.Services
 {
     public interface IStandingEventService
     {
-        public Task<ICommandResult> CreateEventAsync(List<IFormFile>? files, StandingEventCreateDto eventItem);
+        public Task<ICommandResult> CreateEventAsync(StandingEventCreateDto eventItem);
         public Task<ICommandResult> DeleteEventAsync(Guid id);
         public Task<ICommandResult> UpdateEventAsync(StandingEvent eventItem);
         public Task<ICommandResult<StandingEvent>> GetEventByIdAsync(Guid id);
@@ -27,20 +26,10 @@ namespace Application.Services
             _mapper = mapper;
         }
 
-        public async Task<ICommandResult> CreateEventAsync(List<IFormFile>? files, StandingEventCreateDto eventItem)
+        public async Task<ICommandResult> CreateEventAsync(StandingEventCreateDto eventItem)
         {
             var entity = _mapper.Map<StandingEvent>(eventItem);
 
-            if (files?.Count > 0)
-            {
-                var images = new List<byte[]>();
-
-                foreach (var file in files)
-                {
-                    images.Add(Shared.Helper.ImageHelper.ImageToByteArray(file));
-                }
-                entity.Images = images;
-            }
             if (eventItem.IsFree)
             {
                 entity.Price = null;

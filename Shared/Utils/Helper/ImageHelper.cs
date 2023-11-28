@@ -2,7 +2,7 @@
 
 using Microsoft.AspNetCore.Http;
 
-namespace Shared.Helper
+namespace Shared.Utils.Helper
 {
     public static class ImageHelper
     {
@@ -23,7 +23,7 @@ namespace Shared.Helper
         public static System.Drawing.Image ByteArrayToImage(byte[] byteArray)
         {
             using var stream = new MemoryStream(byteArray);
-             
+
             return System.Drawing.Image.FromStream(stream);
         }
     }

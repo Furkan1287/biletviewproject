@@ -37,10 +37,10 @@ namespace WebAPI.Controllers.Event
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateSeatedEvent([FromForm]List<IFormFile> files, [FromForm] SeatedEventCreateDto eventItem)
+        public async Task<IActionResult> CreateSeatedEvent(/*[FromForm]List<IFormFile> files,*/ SeatedEventCreateDto eventItem)
         {
             
-            var result = await _seatedEventService.CreateEventAsync(files, eventItem);
+            var result = await _seatedEventService.CreateEventAsync(/*files,*/ eventItem);
             if (result.Success)
             {
                 return Ok(result);

@@ -11,16 +11,12 @@ namespace Domain.Entities
         public DateTime EndDate { get; set; }
         public int TicketCount { get; set; }
         public bool IsFree { get; set; }
-        [NotMapped]
-        public IEnumerable<byte[]>? Images { get; set; }
+        public IEnumerable<EventImage>? Images { get; set; }
         public Guid CategoryId { get; set; }
         public Guid OrganizerId { get; set; }
         public Guid VenueId { get; set; }
-        [NotMapped]
         public Category? Category { get; set; }
-        [NotMapped]
         public Organizer? Organizer { get; set; }
-        [NotMapped]
         public Venue? Venue { get; set; }
     }
 

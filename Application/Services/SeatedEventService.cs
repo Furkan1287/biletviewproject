@@ -1,15 +1,16 @@
 ﻿using AutoMapper;
-using Domain;
 using Domain.DTOs;
 using Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Shared.Repository;
+using Shared.Utils.Helper;
+using Shared.Utils.Result;
 
 namespace Application.Services
 {
     public interface ISeatedEventService
     {
-        public Task<ICommandResult> CreateEventAsync(List<IFormFile>? files, SeatedEventCreateDto eventItem);
+        public Task<ICommandResult> CreateEventAsync(/*List<IFormFile>? files,*/ SeatedEventCreateDto eventItem);
         public Task<ICommandResult> DeleteEventAsync(Guid id);
         public Task<ICommandResult> UpdateEventAsync(SeatedEvent eventItem);
         public Task<ICommandResult<SeatedEvent>> GetEventByIdAsync(Guid id);
@@ -27,20 +28,9 @@ namespace Application.Services
             _mapper = mapper;
         }
 
-        public async Task<ICommandResult> CreateEventAsync(List<IFormFile>? files, SeatedEventCreateDto eventItem)
+        public async Task<ICommandResult> CreateEventAsync(SeatedEventCreateDto eventItem)
         {
             var entity = _mapper.Map<SeatedEvent>(eventItem);
-
-            if (files?.Count > 0)
-            {
-                var images = new List<byte[]>();
-
-                foreach (var file in files)
-                {
-                    images.Add(Shared.Helper.ImageHelper.ImageToByteArray(file));
-                }
-                entity.Images = images;
-            }
             
             if (!eventItem.IsFree)
             {

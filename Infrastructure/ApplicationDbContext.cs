@@ -19,6 +19,7 @@ namespace Infrastructure
         public DbSet<Category> Categories { get; set; }
         public DbSet<Organizer> Organizers { get; set; }
         public DbSet<Venue> Venues { get; set; }
+        public DbSet<EventImage> EventImages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -25,6 +25,9 @@ namespace Infrastructure.EntityConfigurations
 
             builder.HasOne(e => e.Venue)
                 .WithMany(e => e.Events);
+
+            builder.HasMany(e => e.Images)
+                .WithOne(e => e.Event);
         }
     }
 
