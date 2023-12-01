@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
+﻿using Domain.Entities;
 
 namespace Domain.DTOs
 {
+    #region Event
     public class EventCreateDto
     {
         public string Name { get; set; }
@@ -15,7 +15,27 @@ namespace Domain.DTOs
         public Guid OrganizerId { get; set; }
         public Guid VenueId { get; set; }
     }
-    
+
+    public class EventDetailDto
+    {
+        public Guid Id { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public int TicketCount { get; set; }
+        public bool IsFree { get; set; }
+        public bool IsSeatedEvent { get; set; }
+        public CategoryDetailDto Category { get; set; }
+        public OrganizerDetailDto Organizer { get; set; }
+        public VenueDetailDto Venue { get; set; }
+        public List<EventImageDetailDto> Images { get; set; }
+        
+    }
+    #endregion
+
+    #region SeatedEvent
     public class SeatedEventCreateDto : EventCreateDto
     {
         public decimal? VIPSeatPrice { get; set; }
@@ -30,8 +50,24 @@ namespace Domain.DTOs
         public int DisabledSeatCount { get; set; }
     }
 
+    public class SeatedEventDetailDto : EventDetailDto
+    {
+        public IEnumerable<Seat>? Seats { get; set; }
+        public bool IsSeatedEvent { get => true; }
+    }
+
+    #endregion
+
+    #region StandingEvent
     public class StandingEventCreateDto : EventCreateDto
     {
         public decimal? Price { get; set; }
     }
+
+    public class StandingEventDetailDto : EventDetailDto 
+    {
+        public decimal? Price { get; set; }
+        public bool IsSeatedEvent { get => false; }
+    }
+    #endregion
 }

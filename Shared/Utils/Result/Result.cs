@@ -40,7 +40,7 @@
     }
     #endregion
 
-    #region # Generic types
+    #region # generic types
     public class CommandResult<T> : CommandResult, ICommandResult<T>
     {
         public T Data { get; }

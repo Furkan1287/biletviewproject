@@ -1,17 +1,9 @@
 ﻿using AutoMapper;
 using Domain.DTOs;
 using Domain.Entities;
-using Microsoft.AspNetCore.Http;
 using Shared.Repository;
 using Shared.Utils.Helper;
 using Shared.Utils.Result;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Application.Services
 {
@@ -53,16 +45,15 @@ namespace Application.Services
                 //var defaultImage = await _eventImageRepository.GetAsync(i => i.Id == Guid.NewGuid());
                 return new SuccessCommandResult();
             }
-            var byteArrayImages = new List<byte[]>();
+
             var eventImage = _mapper.Map<EventImage>(eventImageDto);
             foreach (var image in eventImageDto.Images)
             {
-                var item = ImageHelper.ImageToByteArray(image);
-                byteArrayImages.Add(item);
+                var item = ImageHelper.ImageToBase64(image);
 
                 if (item != null)
                 {
-                    eventImage.Image = item;
+                    eventImage.ImageUrl = item;
                     await _eventImageRepository.AddAsync(eventImage);
                 }
             }

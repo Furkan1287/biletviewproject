@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Shared.Entities;
+using Shared.Extensions;
 using System.Linq.Expressions;
 
 namespace Shared.Repository
@@ -28,16 +29,16 @@ namespace Shared.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync( Expression<Func<TEntity, bool>>? predicate = null, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, object>>[]? includes = null, Expression<Func<TEntity, bool>>? predicate = null, CancellationToken cancellationToken = default)
         {
             return await (predicate == null ?
-                   _context.Set<TEntity>().ToListAsync() :
-                   _context.Set<TEntity>().Where(predicate).ToListAsync(cancellationToken));
+                   _context.Set<TEntity>().IncludeMultiple(includes).ToListAsync(cancellationToken):
+                   _context.Set<TEntity>().IncludeMultiple(includes).Where(predicate).ToListAsync(cancellationToken));
         }
 
-        public async Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> predicate)
+        public async Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, object>>[]? includes = null)
         {
-            return await _context.Set<TEntity>().FirstOrDefaultAsync(predicate);
+            return await _context.Set<TEntity>().IncludeMultiple(includes).FirstOrDefaultAsync(predicate);
         }
 
         public async Task UpdateAsync(TEntity entity)

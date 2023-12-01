@@ -1,30 +1,22 @@
-﻿
-
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 
 namespace Shared.Utils.Helper
 {
     public static class ImageHelper
     {
-        public static byte[]? ImageToByteArray(IFormFile imageFile)
+        public static string ImageToBase64(IFormFile imageFile)
         {
             if (imageFile == null || imageFile.Length == 0) return null;
 
-            using var imageStream = imageFile.OpenReadStream();
-            using var image = System.Drawing.Image.FromStream(imageStream);
+            string[] allowedExtensions = { ".jpg", ".jpeg", ".png"};
 
-            if (image == null) return null;
-
+            var extension = Path.GetExtension(imageFile.FileName);
+            if (!allowedExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase)) return null;
             using var stream = new MemoryStream();
-            image.Save(stream, System.Drawing.Imaging.ImageFormat.Jpeg);
-            return stream.ToArray();
-        }
+            imageFile.CopyTo(stream);
 
-        public static System.Drawing.Image ByteArrayToImage(byte[] byteArray)
-        {
-            using var stream = new MemoryStream(byteArray);
-
-            return System.Drawing.Image.FromStream(stream);
+            string base64String = Convert.ToBase64String(stream.ToArray());
+            return $"data:image/{extension.Substring(1)};base64,{base64String}";
         }
     }
 }

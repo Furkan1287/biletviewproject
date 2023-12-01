@@ -1,39 +1,71 @@
-﻿using Domain.Entities;
+﻿using AutoMapper;
+using Domain.DTOs;
+using Domain.Entities;
 using Shared.Repository;
 using Shared.Utils.Result;
+using System.Linq.Expressions;
 
 namespace Application.Services
 {
     public interface IEventService
     {
-        public Task<CommandResult<IEnumerable<Event>>> GetEvents();
+        public Task<CommandResult<IEnumerable<EventDetailDto>>> GetEvents();
     }
     public class EventService : IEventService
     {
         private readonly IGenericRepositoryAsync<Event> _eventRepository;
+        readonly IMapper _mapper;
 
-        public EventService(IGenericRepositoryAsync<Event> eventRepository)
+        Expression<Func<Event, object>>[] includes = new Expression<Func<Event, object>>[]
+        {
+            s => s.Category,
+            s => s.Organizer,
+            s => s.Venue,
+            s => s.Images
+        };
+
+        public EventService(IGenericRepositoryAsync<Event> eventRepository, IMapper mapper)
         {
             _eventRepository = eventRepository;
+            _mapper = mapper;
         }
 
-        public async Task<CommandResult<IEnumerable<Event>>> GetEvents()
+        public async Task<CommandResult<IEnumerable<EventDetailDto>>> GetEvents()
         {
-            var data = await _eventRepository.GetAllAsync();
-            return new SuccessCommandResult<IEnumerable<Event>>(data);
-        }
-        public async Task<CommandResult<IEnumerable<Event>>> GetEventsByDateRange(DateTime startDate, DateTime endDate)
-        {
-            var events = await _eventRepository.GetAllAsync(e => e.StartDate >= startDate && e.EndDate <= endDate);
+            var eventList = await _eventRepository.GetAllAsync(includes);
+            var data = new List<EventDetailDto>();
 
-            return new SuccessCommandResult<IEnumerable<Event>>(events);
+            foreach (var item in eventList)
+            {
+                var entity = _mapper.Map<EventDetailDto>(item);
+                data.Add(entity);
+            }
+            
+            return new SuccessCommandResult<IEnumerable<EventDetailDto>>(data);
         }
-        public async Task<CommandResult<IEnumerable<Event>>> GetPastEvents()
+        public async Task<CommandResult<IEnumerable<EventDetailDto>>> GetEventsByDateRange(DateTime startDate, DateTime endDate)
+        {
+            var eventList = await _eventRepository.GetAllAsync(includes, e => e.StartDate >= startDate && e.EndDate <= endDate);
+            var data = new List<EventDetailDto>();
+
+            foreach (var item in eventList)
+            {
+                data.Add(_mapper.Map<EventDetailDto>(item));
+            }
+
+            return new SuccessCommandResult<IEnumerable<EventDetailDto>>(data);
+        }
+        public async Task<CommandResult<IEnumerable<EventDetailDto>>> GetPastEvents()
         {
             // Şu anki tarihe kadar olan etkinlikleri filtrele
-            var pastEvents = await _eventRepository.GetAllAsync(e => e.EndDate < DateTime.UtcNow);
+            var pastEvents = await _eventRepository.GetAllAsync(null, e => e.EndDate < DateTime.UtcNow);
+            var data = new List<EventDetailDto>();
+            foreach (var item in pastEvents)
+            {
+                data.Add(_mapper.Map<EventDetailDto>(item));
+            }
 
-            return new SuccessCommandResult<IEnumerable<Event>>(pastEvents);
+            return new SuccessCommandResult<IEnumerable<EventDetailDto>>(data);
         }
 
     }

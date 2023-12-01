@@ -7,6 +7,7 @@ namespace Domain.Mapper
         public EventImageProfile() 
         {
             CreateMap<Entities.EventImage, DTOs.EventImageUploadDto>().ReverseMap();
+            CreateMap<Entities.EventImage, DTOs.EventImageDetailDto>().ReverseMap();
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Application.Services;
 using Domain.DTOs;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers.Event
@@ -17,7 +16,7 @@ namespace WebAPI.Controllers.Event
         }
 
         [HttpPost]
-        public async Task<IActionResult> UploadEventImage([FromForm] EventImageUploadDto eventImageUploadDto)
+        public async Task<IActionResult> UploadEventImage([FromForm] EventImageUploadDto? eventImageUploadDto)
         {
             var result = await _eventImageService.UploadImage(eventImageUploadDto);
             if (result.Success)
