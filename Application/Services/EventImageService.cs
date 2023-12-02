@@ -47,8 +47,6 @@ namespace Application.Services
             {
                 return new ErrorCommandResult("3' den fazla resim yüklenemez!");
             }
-            //buradan kaynaklı çoklu resim yükleme çalışmıyor!
-            
             foreach (var image in eventImageDto.Images)
             {
                 var eventImage = _mapper.Map<EventImage>(eventImageDto);
