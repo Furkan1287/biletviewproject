@@ -52,8 +52,10 @@ namespace Application.Services
             {
                 return new ErrorCommandResult<EventDetailDto>();
             }
+            eventItem.PopularityCount++;
+            await _eventRepository.UpdateAsync(eventItem);
             var data = _mapper.Map<EventDetailDto>(eventItem);
-            return new ErrorCommandResult<EventDetailDto>(data);
+            return new SuccessCommandResult<EventDetailDto>(data);
         }
 
         public async Task<ICommandResult<IEnumerable<EventDetailDto>>> GetEventsByDateRange(DateTime startDate, DateTime endDate)

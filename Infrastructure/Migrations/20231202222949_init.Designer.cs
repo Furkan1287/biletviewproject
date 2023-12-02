@@ -14,7 +14,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231201180240_init")]
+    [Migration("20231202222949_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -43,6 +43,14 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("3addf918-37e5-4b06-9ffc-17af03ec7878"),
+                            CategoryName = "Tiyatro",
+                            CreatedDate = new DateTime(2023, 12, 2, 22, 29, 49, 491, DateTimeKind.Utc).AddTicks(7651)
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Event", b =>
@@ -73,6 +81,9 @@ namespace Infrastructure.Migrations
 
                     b.Property<Guid>("OrganizerId")
                         .HasColumnType("uuid");
+
+                    b.Property<long>("PopularityCount")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("timestamp with time zone");
@@ -110,13 +121,30 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()
+                        .HasMaxLength(2147483647)
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
                     b.HasIndex("EventId");
 
-                    b.ToTable("EventImages");
+                    b.ToTable("EventImages", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("495400ec-7296-415d-8614-9e2aaf955b4f"),
+                            CreatedDate = new DateTime(2023, 12, 2, 22, 29, 49, 491, DateTimeKind.Utc).AddTicks(9211),
+                            EventId = new Guid("aa28c74d-c83b-47d0-936d-7d57072d6cd8"),
+                            ImageUrl = "/images/495400ec7296415d86149e2aaf955b4f.jpg"
+                        },
+                        new
+                        {
+                            Id = new Guid("afcddc37-e2cc-4700-881c-189a9df99545"),
+                            CreatedDate = new DateTime(2023, 12, 2, 22, 29, 49, 491, DateTimeKind.Utc).AddTicks(9216),
+                            EventId = new Guid("aa28c74d-c83b-47d0-936d-7d57072d6cd8"),
+                            ImageUrl = "/images/afcddc37e2cc4700881c189a9df99545.jpg"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Organizer", b =>
@@ -135,6 +163,14 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Organizers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("fe796e28-329c-4d71-bcfe-97c70e913b4e"),
+                            CreatedDate = new DateTime(2023, 12, 2, 22, 29, 49, 491, DateTimeKind.Utc).AddTicks(8129),
+                            OrganizerName = "Fırat Tanış"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Venue", b =>
@@ -169,21 +205,57 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Venues", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("2449f9f5-31b8-4cc4-a80d-815923e121ca"),
+                            Address = "Kuştepe, Kuştepe Trump Alışveriş Merkezi, Mecidiyeköy Yolu Cd. No:12, 34387",
+                            CreatedDate = new DateTime(2023, 12, 2, 22, 29, 49, 491, DateTimeKind.Utc).AddTicks(8698),
+                            District = "Şişli",
+                            GoogleMapsSrc = "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3007.9481497843817!2d28.99002567656014!3d41.070126015613425!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cab6fbf4fb50f5%3A0x2c60541c9e93c923!2sTrump%20K%C3%BClt%C3%BCr%20Ve%20G%C3%B6steri%20Merkezi!5e0!3m2!1str!2str!4v1701547065585!5m2!1str!2str\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                            Province = "İstanbul",
+                            VenueName = "Trump Sahne"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.SeatedEvent", b =>
                 {
                     b.HasBaseType("Domain.Entities.Event");
 
+                    b.Property<bool>("IsSeatedEvent")
+                        .HasColumnType("boolean");
+
                     b.Property<IEnumerable<Seat>>("Seats")
                         .HasColumnType("jsonb");
 
                     b.ToTable("SeatedEvents", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("aa28c74d-c83b-47d0-936d-7d57072d6cd8"),
+                            CategoryId = new Guid("3addf918-37e5-4b06-9ffc-17af03ec7878"),
+                            CreatedDate = new DateTime(2023, 12, 2, 22, 29, 49, 493, DateTimeKind.Utc).AddTicks(7044),
+                            Description = "Semih Çelenk’in yazdığı ve yönettiği “Gelin Tanış Olalım”da Fırat Tanış’ bir Abdal hikayesi ile sahneye çıkıyor.",
+                            EndDate = new DateTime(2023, 12, 2, 22, 29, 49, 493, DateTimeKind.Utc).AddTicks(7046),
+                            IsFree = true,
+                            Name = "Fırat Tanış ile Gelin Tanış Olalım Oyunu",
+                            OrganizerId = new Guid("fe796e28-329c-4d71-bcfe-97c70e913b4e"),
+                            PopularityCount = 0L,
+                            StartDate = new DateTime(2023, 12, 2, 22, 29, 49, 493, DateTimeKind.Utc).AddTicks(7046),
+                            TicketCount = 500,
+                            VenueId = new Guid("2449f9f5-31b8-4cc4-a80d-815923e121ca"),
+                            IsSeatedEvent = true
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.StandingEvent", b =>
                 {
                     b.HasBaseType("Domain.Entities.Event");
+
+                    b.Property<bool>("IsSeatedEvent")
+                        .HasColumnType("boolean");
 
                     b.Property<decimal?>("Price")
                         .HasColumnType("numeric");

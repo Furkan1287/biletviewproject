@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
@@ -67,6 +69,7 @@ namespace Infrastructure.Migrations
                     EndDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     TicketCount = table.Column<int>(type: "integer", nullable: false),
                     IsFree = table.Column<bool>(type: "boolean", nullable: false),
+                    PopularityCount = table.Column<long>(type: "bigint", nullable: false),
                     CategoryId = table.Column<Guid>(type: "uuid", nullable: false),
                     OrganizerId = table.Column<Guid>(type: "uuid", nullable: false),
                     VenueId = table.Column<Guid>(type: "uuid", nullable: false),
@@ -100,7 +103,7 @@ namespace Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    ImageUrl = table.Column<string>(type: "text", nullable: false),
+                    ImageUrl = table.Column<string>(type: "text", maxLength: 2147483647, nullable: false),
                     EventId = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
@@ -120,7 +123,8 @@ namespace Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Seats = table.Column<IEnumerable<Seat>>(type: "jsonb", nullable: true)
+                    Seats = table.Column<IEnumerable<Seat>>(type: "jsonb", nullable: true),
+                    IsSeatedEvent = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -138,7 +142,8 @@ namespace Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Price = table.Column<decimal>(type: "numeric", nullable: true)
+                    Price = table.Column<decimal>(type: "numeric", nullable: true),
+                    IsSeatedEvent = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -150,6 +155,40 @@ namespace Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "Id", "CategoryName", "CreatedDate" },
+                values: new object[] { new Guid("3addf918-37e5-4b06-9ffc-17af03ec7878"), "Tiyatro", new DateTime(2023, 12, 2, 22, 29, 49, 491, DateTimeKind.Utc).AddTicks(7651) });
+
+            migrationBuilder.InsertData(
+                table: "Organizers",
+                columns: new[] { "Id", "CreatedDate", "OrganizerName" },
+                values: new object[] { new Guid("fe796e28-329c-4d71-bcfe-97c70e913b4e"), new DateTime(2023, 12, 2, 22, 29, 49, 491, DateTimeKind.Utc).AddTicks(8129), "Fırat Tanış" });
+
+            migrationBuilder.InsertData(
+                table: "Venues",
+                columns: new[] { "Id", "Address", "CreatedDate", "District", "GoogleMapsSrc", "Province", "VenueName" },
+                values: new object[] { new Guid("2449f9f5-31b8-4cc4-a80d-815923e121ca"), "Kuştepe, Kuştepe Trump Alışveriş Merkezi, Mecidiyeköy Yolu Cd. No:12, 34387", new DateTime(2023, 12, 2, 22, 29, 49, 491, DateTimeKind.Utc).AddTicks(8698), "Şişli", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3007.9481497843817!2d28.99002567656014!3d41.070126015613425!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cab6fbf4fb50f5%3A0x2c60541c9e93c923!2sTrump%20K%C3%BClt%C3%BCr%20Ve%20G%C3%B6steri%20Merkezi!5e0!3m2!1str!2str!4v1701547065585!5m2!1str!2str\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>", "İstanbul", "Trump Sahne" });
+
+            migrationBuilder.InsertData(
+                table: "Events",
+                columns: new[] { "Id", "CategoryId", "CreatedDate", "Description", "EndDate", "IsFree", "Name", "OrganizerId", "PopularityCount", "StartDate", "TicketCount", "VenueId" },
+                values: new object[] { new Guid("aa28c74d-c83b-47d0-936d-7d57072d6cd8"), new Guid("3addf918-37e5-4b06-9ffc-17af03ec7878"), new DateTime(2023, 12, 2, 22, 29, 49, 493, DateTimeKind.Utc).AddTicks(7044), "Semih Çelenk’in yazdığı ve yönettiği “Gelin Tanış Olalım”da Fırat Tanış’ bir Abdal hikayesi ile sahneye çıkıyor.", new DateTime(2023, 12, 2, 22, 29, 49, 493, DateTimeKind.Utc).AddTicks(7046), true, "Fırat Tanış ile Gelin Tanış Olalım Oyunu", new Guid("fe796e28-329c-4d71-bcfe-97c70e913b4e"), 0L, new DateTime(2023, 12, 2, 22, 29, 49, 493, DateTimeKind.Utc).AddTicks(7046), 500, new Guid("2449f9f5-31b8-4cc4-a80d-815923e121ca") });
+
+            migrationBuilder.InsertData(
+                table: "EventImages",
+                columns: new[] { "Id", "CreatedDate", "EventId", "ImageUrl" },
+                values: new object[,]
+                {
+                    { new Guid("495400ec-7296-415d-8614-9e2aaf955b4f"), new DateTime(2023, 12, 2, 22, 29, 49, 491, DateTimeKind.Utc).AddTicks(9211), new Guid("aa28c74d-c83b-47d0-936d-7d57072d6cd8"), "/images/495400ec7296415d86149e2aaf955b4f.jpg" },
+                    { new Guid("afcddc37-e2cc-4700-881c-189a9df99545"), new DateTime(2023, 12, 2, 22, 29, 49, 491, DateTimeKind.Utc).AddTicks(9216), new Guid("aa28c74d-c83b-47d0-936d-7d57072d6cd8"), "/images/afcddc37e2cc4700881c189a9df99545.jpg" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "SeatedEvents",
+                columns: new[] { "Id", "IsSeatedEvent", "Seats" },
+                values: new object[] { new Guid("aa28c74d-c83b-47d0-936d-7d57072d6cd8"), true, null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_EventImages_EventId",

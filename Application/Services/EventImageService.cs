@@ -28,6 +28,7 @@ namespace Application.Services
             var deleteEventImage = await _eventImageRepository.GetAsync(i => i.Id == imageId);
             if (deleteEventImage is not null)
             {
+                ImageHelper.DeleteImage(deleteEventImage.ImageUrl);
                 await _eventImageRepository.DeleteAsync(deleteEventImage);
                 return new SuccessCommandResult();
             }
@@ -47,10 +48,11 @@ namespace Application.Services
                 return new ErrorCommandResult("3' den fazla resim yüklenemez!");
             }
             //buradan kaynaklı çoklu resim yükleme çalışmıyor!
-            var eventImage = _mapper.Map<EventImage>(eventImageDto);
+            
             foreach (var image in eventImageDto.Images)
             {
-                var item = ImageHelper.ImageToBase64(image);
+                var eventImage = _mapper.Map<EventImage>(eventImageDto);
+                var item = ImageHelper.AddImage(image, eventImage.Id);
 
                 if (item != null)
                 {

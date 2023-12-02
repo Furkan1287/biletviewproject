@@ -21,6 +21,7 @@ namespace Infrastructure
             modelBuilder.ApplyConfiguration(new CategoryEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new OrganizerEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new VenueEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new EventImageEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new EventEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new SeatedEventEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new StandingEventEntityTypeConfiguration());

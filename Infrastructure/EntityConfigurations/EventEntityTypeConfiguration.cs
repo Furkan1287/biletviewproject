@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Text.Json;
 
 namespace Infrastructure.EntityConfigurations
 {
@@ -33,6 +34,24 @@ namespace Infrastructure.EntityConfigurations
         {
             builder.ToTable("SeatedEvents")
                 .HasBaseType<Event>();
+
+            var seatedEvent = new SeatedEvent
+            {
+                Id = Guid.Parse("aa28c74d-c83b-47d0-936d-7d57072d6cd8"),
+                CreatedDate = DateTime.UtcNow,
+                Name = "Fırat Tanış ile Gelin Tanış Olalım Oyunu",
+                Description = "Semih Çelenk’in yazdığı ve yönettiği “Gelin Tanış Olalım”da Fırat Tanış’ bir Abdal hikayesi ile sahneye çıkıyor.",
+                StartDate = DateTime.UtcNow,
+                EndDate = DateTime.UtcNow,
+                TicketCount = 500,
+                IsFree = true,
+                IsSeatedEvent = true,
+                CategoryId = Guid.Parse("3addf918-37e5-4b06-9ffc-17af03ec7878"),
+                OrganizerId = Guid.Parse("fe796e28-329c-4d71-bcfe-97c70e913b4e"),
+                VenueId = Guid.Parse("2449f9f5-31b8-4cc4-a80d-815923e121ca")
+            };
+
+            builder.HasData(seatedEvent);
         }
     }
 
