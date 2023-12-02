@@ -46,7 +46,7 @@ if (app.Environment.IsDevelopment())
     {
         c.SwaggerEndpoint("category/swagger.json", "Category service of operational");
         c.SwaggerEndpoint("event/swagger.json", "Event service of operational");
-        c.SwaggerEndpoint("organizer/swagger.json", "Event service of operational");
+        c.SwaggerEndpoint("organizer/swagger.json", "Organizer service of operational");
         c.SwaggerEndpoint("venue/swagger.json", "Venue service of operational");
     });
 }
