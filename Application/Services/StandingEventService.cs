@@ -3,7 +3,6 @@ using Domain.DTOs;
 using Domain.Entities;
 using Shared.Repository;
 using Shared.Utils.Result;
-using System.Linq.Expressions;
 
 namespace Application.Services
 {
@@ -12,22 +11,12 @@ namespace Application.Services
         public Task<ICommandResult> CreateEventAsync(StandingEventCreateDto eventItem);
         public Task<ICommandResult> DeleteEventAsync(Guid id);
         public Task<ICommandResult> UpdateEventAsync(StandingEvent eventItem);
-        public Task<ICommandResult<StandingEventDetailDto>> GetEventByIdAsync(Guid id);
-        public Task<ICommandResult<IEnumerable<StandingEventDetailDto>>> GetEventsAsync();
     }
 
     public class StandingEventService : IStandingEventService
     {
         private readonly IGenericRepositoryAsync<StandingEvent> _standingEventRepository;
         readonly IMapper _mapper;
-
-        Expression<Func<StandingEvent, object>>[] includes = new Expression<Func<StandingEvent, object>>[]
-        {
-            s => s.Category,
-            s => s.Organizer,
-            s => s.Venue,
-            s => s.Images
-        };
 
         public StandingEventService(IGenericRepositoryAsync<StandingEvent> standingEventRepository, IMapper mapper)
         {
@@ -56,30 +45,6 @@ namespace Application.Services
                 return new SuccessCommandResult();
             }
             return new ErrorCommandResult();
-        }
-
-        public async Task<ICommandResult<StandingEventDetailDto>> GetEventByIdAsync(Guid id)
-        {
-            var existEvent = await _standingEventRepository.GetAsync(e => e.Id == id, includes);
-            if (existEvent != null)
-            {
-                var data = _mapper.Map<StandingEventDetailDto>(existEvent);
-                return new SuccessCommandResult<StandingEventDetailDto>(data);
-            }
-            return new ErrorCommandResult<StandingEventDetailDto>(); 
-        }
-
-        public async Task<ICommandResult<IEnumerable<StandingEventDetailDto>>> GetEventsAsync()
-        {
-            var eventList = await _standingEventRepository.GetAllAsync(includes);
-
-            var data = new List<StandingEventDetailDto>();
-            foreach (var item in eventList)
-            {
-                var entity = _mapper.Map<StandingEventDetailDto>(item);
-                data.Add(entity);
-            }
-            return new SuccessCommandResult<IEnumerable<StandingEventDetailDto>>(data);
         }
 
         public async Task<ICommandResult> UpdateEventAsync(StandingEvent eventItem)

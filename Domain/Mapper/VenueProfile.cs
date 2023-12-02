@@ -9,6 +9,7 @@ namespace Domain.Mapper
         public VenueProfile()
         {
             CreateMap<Venue, VenueDetailDto>().ReverseMap();
+            CreateMap<Venue, VenueCreateDto>().ReverseMap();
         }
     }
 }

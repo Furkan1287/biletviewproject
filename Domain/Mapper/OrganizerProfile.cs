@@ -9,6 +9,7 @@ namespace Domain.Mapper
         public OrganizerProfile()
         {
             CreateMap<Organizer, OrganizerDetailDto>().ReverseMap();
+            CreateMap<Organizer, OrganizerCreateDto>().ReverseMap();
         }
     }
 }

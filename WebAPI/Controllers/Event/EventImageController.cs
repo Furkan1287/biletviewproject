@@ -25,5 +25,15 @@ namespace WebAPI.Controllers.Event
             }
             return BadRequest(result);
         }
+        [HttpDelete("{imageId}")]
+        public async Task<IActionResult> DeleteEventImage(Guid imageId)
+        {
+            var result = await _eventImageService.DeleteImage(imageId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
     }
 }

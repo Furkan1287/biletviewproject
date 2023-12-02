@@ -1,4 +1,5 @@
 ﻿using Application.Services;
+using Domain.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers.Event
@@ -15,9 +16,27 @@ namespace WebAPI.Controllers.Event
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<ActionResult<List<EventDetailDto>>> GetAll()
         {
             var result = await _eventService.GetEvents();
+            return Ok(result);
+        }
+
+        [HttpGet("{eventId}")]
+        public async Task<ActionResult<EventDetailDto>> GetById(Guid eventId)
+        {
+            var result = await _eventService.GetEventById(eventId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest();
+        }
+
+        [HttpGet("pastevents")]
+        public async Task<ActionResult<List<EventDetailDto>>> GetPastEvents()
+        {
+            var result = await _eventService.GetPastEvents();
             return Ok(result);
         }
     }

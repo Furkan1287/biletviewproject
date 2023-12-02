@@ -5,4 +5,9 @@
         public Guid Id { get; set; }
         public string CategoryName { get; set; }
     }
+
+    public class CategoryCreateDto
+    {
+        public string CategoryName { get; set; }
+    }
 }

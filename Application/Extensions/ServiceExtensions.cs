@@ -21,6 +21,15 @@ namespace Application.Extensions
 
             services.AddScoped<IEventImageService, EventImageService>();
             services.AddScoped<IGenericRepositoryAsync<EventImage>, GenericRepositoryBaseAsync<EventImage, ApplicationDbContext>>();
+
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IGenericRepositoryAsync<Category>, GenericRepositoryBaseAsync<Category, ApplicationDbContext>>();
+
+            services.AddScoped<IOrganizerService, OrganizerService>();
+            services.AddScoped<IGenericRepositoryAsync<Organizer>, GenericRepositoryBaseAsync<Organizer, ApplicationDbContext>>();
+
+            services.AddScoped<IVenueService, VenueService>();
+            services.AddScoped<IGenericRepositoryAsync<Venue>, GenericRepositoryBaseAsync<Venue, ApplicationDbContext>>();
         }
     }
 }

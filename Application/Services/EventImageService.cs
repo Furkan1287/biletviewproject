@@ -9,8 +9,8 @@ namespace Application.Services
 {
     public interface IEventImageService
     {
-        Task<CommandResult> UploadImage(EventImageUploadDto eventImage);
-        Task<CommandResult> DeleteImage(Guid imageId);
+        Task<ICommandResult> UploadImage(EventImageUploadDto eventImage);
+        Task<ICommandResult> DeleteImage(Guid imageId);
     }
     public class EventImageService : IEventImageService
     {
@@ -23,7 +23,7 @@ namespace Application.Services
             _mapper = mapper;
         }
 
-        public async Task<CommandResult> DeleteImage(Guid imageId)
+        public async Task<ICommandResult> DeleteImage(Guid imageId)
         {
             var deleteEventImage = await _eventImageRepository.GetAsync(i => i.Id == imageId);
             if (deleteEventImage is not null)
@@ -34,18 +34,19 @@ namespace Application.Services
             return new ErrorCommandResult("Resim bulunamadı!");
         }
 
-        public async Task<CommandResult> UploadImage(EventImageUploadDto eventImageDto)
+        public async Task<ICommandResult> UploadImage(EventImageUploadDto eventImageDto)
         {
-            if (eventImageDto.Images.Count() > 3 )
-            {
-                return new ErrorCommandResult("3' den fazla resim yüklenemez!");
-            }
-            if (eventImageDto.Images.Count() < 0)
+            if (eventImageDto.Images.Count() < 1 || eventImageDto.Images == null)
             {
                 //var defaultImage = await _eventImageRepository.GetAsync(i => i.Id == Guid.NewGuid());
                 return new SuccessCommandResult();
             }
 
+            if (eventImageDto.Images.Count() > 3 )
+            {
+                return new ErrorCommandResult("3' den fazla resim yüklenemez!");
+            }
+            //buradan kaynaklı çoklu resim yükleme çalışmıyor!
             var eventImage = _mapper.Map<EventImage>(eventImageDto);
             foreach (var image in eventImageDto.Images)
             {

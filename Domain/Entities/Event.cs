@@ -24,13 +24,13 @@ namespace Domain.Entities
     {
         [Column(TypeName = "jsonb")]
         public IEnumerable<Seat>? Seats { get; set; }
-        public bool IsSeatedEvent { get => true; }
+        public bool IsSeatedEvent { get; } = true;
     }
 
     public class StandingEvent : Event
     {
         public decimal? Price { get; set; }
-        public bool IsSeatedEvent { get => false; }
+        public bool IsSeatedEvent { get; } = false;
     }
 
 }

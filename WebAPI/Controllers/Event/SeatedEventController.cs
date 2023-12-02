@@ -17,30 +17,11 @@ namespace WebAPI.Controllers.Event
         }
 
         #region # Seated Events
-        [HttpGet]
-        public async Task<ActionResult<List<SeatedEvent>>> GetSeatedEvents()
-        {
-            var events = await _seatedEventService.GetEventsAsync();
-            return Ok(events);
-        }
-
-        [HttpGet("{eventId}")]
-        public async Task<ActionResult<SeatedEvent>> GetSeatedEvent(Guid eventId)
-        {
-            var eventItem = await _seatedEventService.GetEventByIdAsync(eventId);
-            if (eventItem == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(eventItem);
-        }
-
         [HttpPost]
-        public async Task<IActionResult> CreateSeatedEvent(/*[FromForm]List<IFormFile> files,*/ SeatedEventCreateDto eventItem)
+        public async Task<IActionResult> CreateSeatedEvent(SeatedEventCreateDto eventItem)
         {
             
-            var result = await _seatedEventService.CreateEventAsync(/*files,*/ eventItem);
+            var result = await _seatedEventService.CreateEventAsync(eventItem);
             if (result.Success)
             {
                 return Ok(result);
@@ -51,12 +32,6 @@ namespace WebAPI.Controllers.Event
         [HttpPut("{eventId}")]
         public async Task<IActionResult> UpdateSeatedEvent(SeatedEvent eventItem)
         {
-            var eventExist = await _seatedEventService.GetEventByIdAsync(eventItem.Id);
-            if (eventExist == null)
-            {
-                return NotFound();
-            }
-
             var result = await _seatedEventService.UpdateEventAsync(eventItem);
             if (result.Success)
             {
@@ -68,13 +43,6 @@ namespace WebAPI.Controllers.Event
         [HttpDelete("{eventId}")]
         public async Task<IActionResult> DeleteSeatedEvent(Guid eventId)
         {
-            var eventItem = await _seatedEventService.GetEventByIdAsync(eventId);
-
-            if (eventItem == null)
-            {
-                return NotFound();
-            }
-
             var result = await _seatedEventService.DeleteEventAsync(eventId);
             if (result.Success)
             {

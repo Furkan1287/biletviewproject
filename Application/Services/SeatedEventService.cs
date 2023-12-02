@@ -3,7 +3,6 @@ using Domain.DTOs;
 using Domain.Entities;
 using Shared.Repository;
 using Shared.Utils.Result;
-using System.Linq.Expressions;
 
 namespace Application.Services
 {
@@ -12,8 +11,6 @@ namespace Application.Services
         public Task<ICommandResult> CreateEventAsync(SeatedEventCreateDto eventItem);
         public Task<ICommandResult> DeleteEventAsync(Guid id);
         public Task<ICommandResult> UpdateEventAsync(SeatedEvent eventItem);
-        public Task<ICommandResult<SeatedEventDetailDto>> GetEventByIdAsync(Guid id);
-        public Task<ICommandResult<IEnumerable<SeatedEventDetailDto>>> GetEventsAsync();
     }
 
     public class SeatedEventService : ISeatedEventService
@@ -21,20 +18,12 @@ namespace Application.Services
         readonly IGenericRepositoryAsync<SeatedEvent> _seatedEventRepository;
         readonly IMapper _mapper;
 
-        Expression<Func<SeatedEvent, object>>[] includes = new Expression<Func<SeatedEvent, object>>[]
-        {
-            s => s.Category,
-            s => s.Organizer,
-            s => s.Venue,
-            s => s.Images
-        };
-
         public SeatedEventService(IGenericRepositoryAsync<SeatedEvent> seatedEventRepository, IMapper mapper)
         {
             _seatedEventRepository = seatedEventRepository;
             _mapper = mapper;
         }
-
+        #region crud operations
         public async Task<ICommandResult> CreateEventAsync(SeatedEventCreateDto eventItem)
         {
             var entity = _mapper.Map<SeatedEvent>(eventItem);
@@ -102,30 +91,6 @@ namespace Application.Services
             return new ErrorCommandResult();
         }
 
-        public async Task<ICommandResult<SeatedEventDetailDto>> GetEventByIdAsync(Guid id)
-        {
-            var existEvent = await _seatedEventRepository.GetAsync(e => e.Id == id, includes);
-            if (existEvent != null)
-            {
-                var data = _mapper.Map<SeatedEventDetailDto>(existEvent);
-                return new SuccessCommandResult<SeatedEventDetailDto>(data);
-            }
-            return new ErrorCommandResult<SeatedEventDetailDto>();
-        }
-
-        public async Task<ICommandResult<IEnumerable<SeatedEventDetailDto>>> GetEventsAsync()
-        {
-            var eventList = await _seatedEventRepository.GetAllAsync(includes);
-
-            var data = new List<SeatedEventDetailDto>();
-            foreach (var item in eventList)
-            {
-                var entity = _mapper.Map<SeatedEventDetailDto>(item);
-                data.Add(entity);
-            }
-            return new SuccessCommandResult<IEnumerable<SeatedEventDetailDto>>(data);
-        }
-
         public async Task<ICommandResult> UpdateEventAsync(SeatedEvent eventItem)
         {
             var existEvent = await _seatedEventRepository.GetAsync(e => e.Id == eventItem.Id);
@@ -136,5 +101,6 @@ namespace Application.Services
             }
             return new ErrorCommandResult();
         }
+        #endregion
     }
 }

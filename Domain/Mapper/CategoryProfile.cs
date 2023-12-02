@@ -9,6 +9,7 @@ namespace Domain.Mapper
         public CategoryProfile()
         {
             CreateMap<Category, CategoryDetailDto>().ReverseMap();
+            CreateMap<Category, CategoryCreateDto>().ReverseMap();
         }
     }
 }
