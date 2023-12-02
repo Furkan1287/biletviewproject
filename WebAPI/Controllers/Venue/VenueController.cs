@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebAPI.Controllers.Venue
 {
     [Route("api/[controller]")]
+    [ApiExplorerSettings(GroupName = "venue")]
     [ApiController]
     public class VenueController : ControllerBase
     {

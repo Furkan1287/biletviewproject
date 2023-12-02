@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebAPI.Controllers.Organizer
 {
     [Route("api/[controller]")]
+    [ApiExplorerSettings(GroupName = "organizer")]
     [ApiController]
     public class OrganizerController : ControllerBase
     {

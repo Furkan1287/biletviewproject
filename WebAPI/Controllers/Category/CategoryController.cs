@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebAPI.Controllers.Category
 {
     [Route("api/[controller]")]
+    [ApiExplorerSettings(GroupName = "category")]
     [ApiController]
     public class CategoryController : ControllerBase
     {

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebAPI.Controllers.Event
 {
     [Route("api/[controller]")]
+    [ApiExplorerSettings(GroupName = "event")]
     [ApiController]
     public class EventController : ControllerBase
     {
