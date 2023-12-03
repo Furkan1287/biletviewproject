@@ -13,6 +13,7 @@ namespace Domain.Entities
         public DateTime EndDate { get; set; }
         public int TicketCount { get; set; }
         public bool IsFree { get; set; }
+        public bool IsSeatedEvent { get; set; }
         public long PopularityCount { get; set; }
         public IEnumerable<EventImage>? Images { get; set; }
         public Guid CategoryId { get; set; }
@@ -29,7 +30,7 @@ namespace Domain.Entities
 
         [Column(TypeName = "jsonb")]
         public IEnumerable<Seat>? Seats { get; set; }
-        public bool IsSeatedEvent { get; set; }
+        
     }
 
     public class StandingEvent : Event
@@ -37,6 +38,5 @@ namespace Domain.Entities
         public StandingEvent() => IsSeatedEvent = false;
 
         public decimal? Price { get; set; }
-        public bool IsSeatedEvent { get; set; }
     }
 }

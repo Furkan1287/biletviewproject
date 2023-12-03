@@ -26,12 +26,16 @@ namespace Domain.DTOs
         public DateTime EndDate { get; set; }
         public int TicketCount { get; set; }
         public bool IsFree { get; set; }
+        public bool IsSeatedEvent { get; set; }
         public long PopularityCount { get; set; }
         public CategoryDetailDto Category { get; set; }
         public OrganiserDetailDto Organiser { get; set; }
         public VenueDetailDto Venue { get; set; }
         public List<EventImageDetailDto> Images { get; set; }
-        
+        public SeatedEventDetailDto SeatedEvent { get; set; }
+        public StandingEventDetailDto StandingEvent { get; set; }
+
+
     }
     #endregion
 
@@ -53,7 +57,6 @@ namespace Domain.DTOs
     public class SeatedEventDetailDto : EventDetailDto
     {
         public IEnumerable<Seat>? Seats { get; set; }
-        public bool IsSeatedEvent { get; set; }
     }
 
     #endregion
@@ -67,7 +70,6 @@ namespace Domain.DTOs
     public class StandingEventDetailDto : EventDetailDto 
     {
         public decimal? Price { get; set; }
-        public bool IsSeatedEvent { get; set; }
     }
     #endregion
 }

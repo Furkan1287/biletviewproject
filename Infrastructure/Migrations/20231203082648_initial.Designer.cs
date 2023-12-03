@@ -14,7 +14,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231203081257_initial")]
+    [Migration("20231203082648_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -49,7 +49,7 @@ namespace Infrastructure.Migrations
                         {
                             Id = new Guid("3addf918-37e5-4b06-9ffc-17af03ec7878"),
                             CategoryName = "Tiyatro",
-                            CreatedDate = new DateTime(2023, 12, 3, 8, 12, 57, 893, DateTimeKind.Utc).AddTicks(7671)
+                            CreatedDate = new DateTime(2023, 12, 3, 8, 26, 48, 142, DateTimeKind.Utc).AddTicks(9809)
                         });
                 });
 
@@ -73,6 +73,9 @@ namespace Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("IsFree")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsSeatedEvent")
                         .HasColumnType("boolean");
 
                     b.Property<string>("Name")
@@ -134,14 +137,14 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("495400ec-7296-415d-8614-9e2aaf955b4f"),
-                            CreatedDate = new DateTime(2023, 12, 3, 8, 12, 57, 893, DateTimeKind.Utc).AddTicks(9023),
+                            CreatedDate = new DateTime(2023, 12, 3, 8, 26, 48, 143, DateTimeKind.Utc).AddTicks(1282),
                             EventId = new Guid("aa28c74d-c83b-47d0-936d-7d57072d6cd8"),
                             ImageUrl = "/images/495400ec7296415d86149e2aaf955b4f.jpg"
                         },
                         new
                         {
                             Id = new Guid("afcddc37-e2cc-4700-881c-189a9df99545"),
-                            CreatedDate = new DateTime(2023, 12, 3, 8, 12, 57, 893, DateTimeKind.Utc).AddTicks(9027),
+                            CreatedDate = new DateTime(2023, 12, 3, 8, 26, 48, 143, DateTimeKind.Utc).AddTicks(1299),
                             EventId = new Guid("aa28c74d-c83b-47d0-936d-7d57072d6cd8"),
                             ImageUrl = "/images/afcddc37e2cc4700881c189a9df99545.jpg"
                         });
@@ -168,7 +171,7 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("fe796e28-329c-4d71-bcfe-97c70e913b4e"),
-                            CreatedDate = new DateTime(2023, 12, 3, 8, 12, 57, 893, DateTimeKind.Utc).AddTicks(8163),
+                            CreatedDate = new DateTime(2023, 12, 3, 8, 26, 48, 143, DateTimeKind.Utc).AddTicks(402),
                             OrganiserName = "Fırat Tanış"
                         });
                 });
@@ -211,7 +214,7 @@ namespace Infrastructure.Migrations
                         {
                             Id = new Guid("2449f9f5-31b8-4cc4-a80d-815923e121ca"),
                             Address = "Kuştepe, Kuştepe Trump Alışveriş Merkezi, Mecidiyeköy Yolu Cd. No:12, 34387",
-                            CreatedDate = new DateTime(2023, 12, 3, 8, 12, 57, 893, DateTimeKind.Utc).AddTicks(8531),
+                            CreatedDate = new DateTime(2023, 12, 3, 8, 26, 48, 143, DateTimeKind.Utc).AddTicks(767),
                             District = "Şişli",
                             GoogleMapsSrc = "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3007.9481497843817!2d28.99002567656014!3d41.070126015613425!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cab6fbf4fb50f5%3A0x2c60541c9e93c923!2sTrump%20K%C3%BClt%C3%BCr%20Ve%20G%C3%B6steri%20Merkezi!5e0!3m2!1str!2str!4v1701547065585!5m2!1str!2str\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
                             Province = "İstanbul",
@@ -223,9 +226,6 @@ namespace Infrastructure.Migrations
                 {
                     b.HasBaseType("Domain.Entities.Event");
 
-                    b.Property<bool>("IsSeatedEvent")
-                        .HasColumnType("boolean");
-
                     b.Property<IEnumerable<Seat>>("Seats")
                         .HasColumnType("jsonb");
 
@@ -236,26 +236,23 @@ namespace Infrastructure.Migrations
                         {
                             Id = new Guid("aa28c74d-c83b-47d0-936d-7d57072d6cd8"),
                             CategoryId = new Guid("3addf918-37e5-4b06-9ffc-17af03ec7878"),
-                            CreatedDate = new DateTime(2023, 12, 3, 8, 12, 57, 895, DateTimeKind.Utc).AddTicks(7014),
+                            CreatedDate = new DateTime(2023, 12, 3, 8, 26, 48, 144, DateTimeKind.Utc).AddTicks(9031),
                             Description = "Semih Çelenk’in yazdığı ve yönettiği “Gelin Tanış Olalım”da Fırat Tanış’ bir Abdal hikayesi ile sahneye çıkıyor.",
-                            EndDate = new DateTime(2023, 12, 3, 8, 12, 57, 895, DateTimeKind.Utc).AddTicks(7016),
+                            EndDate = new DateTime(2023, 12, 3, 8, 26, 48, 144, DateTimeKind.Utc).AddTicks(9035),
                             IsFree = true,
+                            IsSeatedEvent = true,
                             Name = "Fırat Tanış ile Gelin Tanış Olalım Oyunu",
                             OrganiserId = new Guid("fe796e28-329c-4d71-bcfe-97c70e913b4e"),
                             PopularityCount = 0L,
-                            StartDate = new DateTime(2023, 12, 3, 8, 12, 57, 895, DateTimeKind.Utc).AddTicks(7015),
+                            StartDate = new DateTime(2023, 12, 3, 8, 26, 48, 144, DateTimeKind.Utc).AddTicks(9034),
                             TicketCount = 500,
-                            VenueId = new Guid("2449f9f5-31b8-4cc4-a80d-815923e121ca"),
-                            IsSeatedEvent = true
+                            VenueId = new Guid("2449f9f5-31b8-4cc4-a80d-815923e121ca")
                         });
                 });
 
             modelBuilder.Entity("Domain.Entities.StandingEvent", b =>
                 {
                     b.HasBaseType("Domain.Entities.Event");
-
-                    b.Property<bool>("IsSeatedEvent")
-                        .HasColumnType("boolean");
 
                     b.Property<decimal?>("Price")
                         .HasColumnType("numeric");
