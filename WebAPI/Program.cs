@@ -28,7 +28,7 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("event", new OpenApiInfo { Title = "Event service of operational", Version = "v1" });
     c.SwaggerDoc("category", new OpenApiInfo { Title = "Category service of operational", Version = "v1" });
-    c.SwaggerDoc("organizer", new OpenApiInfo { Title = "Organizer service of operational", Version = "v1" });
+    c.SwaggerDoc("organiser", new OpenApiInfo { Title = "Organiser service of operational", Version = "v1" });
     c.SwaggerDoc("venue", new OpenApiInfo { Title = "Venue service of operational", Version = "v1" });
 });
 
@@ -46,7 +46,7 @@ if (app.Environment.IsDevelopment())
     {
         c.SwaggerEndpoint("category/swagger.json", "Category service of operational");
         c.SwaggerEndpoint("event/swagger.json", "Event service of operational");
-        c.SwaggerEndpoint("organizer/swagger.json", "Organizer service of operational");
+        c.SwaggerEndpoint("organiser/swagger.json", "Organiser service of operational");
         c.SwaggerEndpoint("venue/swagger.json", "Venue service of operational");
     });
 }

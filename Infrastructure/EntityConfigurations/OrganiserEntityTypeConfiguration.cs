@@ -4,22 +4,22 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.EntityConfigurations
 {
-    public class OrganizerEntityTypeConfiguration
-        : IEntityTypeConfiguration<Organizer>
+    public class OrganiserEntityTypeConfiguration
+        : IEntityTypeConfiguration<Organiser>
     {
-        public void Configure(EntityTypeBuilder<Organizer> builder)
+        public void Configure(EntityTypeBuilder<Organiser> builder)
         {
-            builder.ToTable("Organizers");
+            builder.ToTable("Organisers");
             builder.HasKey(o => o.Id);
 
-            var organizer = new Organizer
+            var organiser = new Organiser
             {
                 Id = Guid.Parse("fe796e28-329c-4d71-bcfe-97c70e913b4e"),
                 CreatedDate = DateTime.UtcNow,
-                OrganizerName = "Fırat Tanış"
+                OrganiserName = "Fırat Tanış"
             };
 
-            builder.HasData(organizer);
+            builder.HasData(organiser);
         }
     }
 }

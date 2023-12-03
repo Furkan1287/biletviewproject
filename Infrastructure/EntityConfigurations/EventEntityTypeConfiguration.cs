@@ -16,7 +16,7 @@ namespace Infrastructure.EntityConfigurations
             builder.HasOne(e => e.Category)
                 .WithMany(e => e.Events);
 
-            builder.HasOne(e => e.Organizer)
+            builder.HasOne(e => e.Organiser)
                 .WithMany(e => e.Events);
 
             builder.HasOne(e => e.Venue)
@@ -47,7 +47,7 @@ namespace Infrastructure.EntityConfigurations
                 IsFree = true,
                 IsSeatedEvent = true,
                 CategoryId = Guid.Parse("3addf918-37e5-4b06-9ffc-17af03ec7878"),
-                OrganizerId = Guid.Parse("fe796e28-329c-4d71-bcfe-97c70e913b4e"),
+                OrganiserId = Guid.Parse("fe796e28-329c-4d71-bcfe-97c70e913b4e"),
                 VenueId = Guid.Parse("2449f9f5-31b8-4cc4-a80d-815923e121ca")
             };
 

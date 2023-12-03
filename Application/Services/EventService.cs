@@ -21,7 +21,7 @@ namespace Application.Services
         Expression<Func<Event, object>>[] includes = new Expression<Func<Event, object>>[]
         {
             s => s.Category,
-            s => s.Organizer,
+            s => s.Organiser,
             s => s.Venue,
             s => s.Images
         };

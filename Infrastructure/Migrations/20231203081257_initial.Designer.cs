@@ -14,8 +14,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231202222949_init")]
-    partial class init
+    [Migration("20231203081257_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,7 +49,7 @@ namespace Infrastructure.Migrations
                         {
                             Id = new Guid("3addf918-37e5-4b06-9ffc-17af03ec7878"),
                             CategoryName = "Tiyatro",
-                            CreatedDate = new DateTime(2023, 12, 2, 22, 29, 49, 491, DateTimeKind.Utc).AddTicks(7651)
+                            CreatedDate = new DateTime(2023, 12, 3, 8, 12, 57, 893, DateTimeKind.Utc).AddTicks(7671)
                         });
                 });
 
@@ -79,7 +79,7 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("OrganizerId")
+                    b.Property<Guid>("OrganiserId")
                         .HasColumnType("uuid");
 
                     b.Property<long>("PopularityCount")
@@ -98,7 +98,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("OrganizerId");
+                    b.HasIndex("OrganiserId");
 
                     b.HasIndex("VenueId");
 
@@ -134,20 +134,20 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("495400ec-7296-415d-8614-9e2aaf955b4f"),
-                            CreatedDate = new DateTime(2023, 12, 2, 22, 29, 49, 491, DateTimeKind.Utc).AddTicks(9211),
+                            CreatedDate = new DateTime(2023, 12, 3, 8, 12, 57, 893, DateTimeKind.Utc).AddTicks(9023),
                             EventId = new Guid("aa28c74d-c83b-47d0-936d-7d57072d6cd8"),
                             ImageUrl = "/images/495400ec7296415d86149e2aaf955b4f.jpg"
                         },
                         new
                         {
                             Id = new Guid("afcddc37-e2cc-4700-881c-189a9df99545"),
-                            CreatedDate = new DateTime(2023, 12, 2, 22, 29, 49, 491, DateTimeKind.Utc).AddTicks(9216),
+                            CreatedDate = new DateTime(2023, 12, 3, 8, 12, 57, 893, DateTimeKind.Utc).AddTicks(9027),
                             EventId = new Guid("aa28c74d-c83b-47d0-936d-7d57072d6cd8"),
                             ImageUrl = "/images/afcddc37e2cc4700881c189a9df99545.jpg"
                         });
                 });
 
-            modelBuilder.Entity("Domain.Entities.Organizer", b =>
+            modelBuilder.Entity("Domain.Entities.Organiser", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -156,20 +156,20 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("OrganizerName")
+                    b.Property<string>("OrganiserName")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Organizers", (string)null);
+                    b.ToTable("Organisers", (string)null);
 
                     b.HasData(
                         new
                         {
                             Id = new Guid("fe796e28-329c-4d71-bcfe-97c70e913b4e"),
-                            CreatedDate = new DateTime(2023, 12, 2, 22, 29, 49, 491, DateTimeKind.Utc).AddTicks(8129),
-                            OrganizerName = "Fırat Tanış"
+                            CreatedDate = new DateTime(2023, 12, 3, 8, 12, 57, 893, DateTimeKind.Utc).AddTicks(8163),
+                            OrganiserName = "Fırat Tanış"
                         });
                 });
 
@@ -211,7 +211,7 @@ namespace Infrastructure.Migrations
                         {
                             Id = new Guid("2449f9f5-31b8-4cc4-a80d-815923e121ca"),
                             Address = "Kuştepe, Kuştepe Trump Alışveriş Merkezi, Mecidiyeköy Yolu Cd. No:12, 34387",
-                            CreatedDate = new DateTime(2023, 12, 2, 22, 29, 49, 491, DateTimeKind.Utc).AddTicks(8698),
+                            CreatedDate = new DateTime(2023, 12, 3, 8, 12, 57, 893, DateTimeKind.Utc).AddTicks(8531),
                             District = "Şişli",
                             GoogleMapsSrc = "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3007.9481497843817!2d28.99002567656014!3d41.070126015613425!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cab6fbf4fb50f5%3A0x2c60541c9e93c923!2sTrump%20K%C3%BClt%C3%BCr%20Ve%20G%C3%B6steri%20Merkezi!5e0!3m2!1str!2str!4v1701547065585!5m2!1str!2str\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
                             Province = "İstanbul",
@@ -236,14 +236,14 @@ namespace Infrastructure.Migrations
                         {
                             Id = new Guid("aa28c74d-c83b-47d0-936d-7d57072d6cd8"),
                             CategoryId = new Guid("3addf918-37e5-4b06-9ffc-17af03ec7878"),
-                            CreatedDate = new DateTime(2023, 12, 2, 22, 29, 49, 493, DateTimeKind.Utc).AddTicks(7044),
+                            CreatedDate = new DateTime(2023, 12, 3, 8, 12, 57, 895, DateTimeKind.Utc).AddTicks(7014),
                             Description = "Semih Çelenk’in yazdığı ve yönettiği “Gelin Tanış Olalım”da Fırat Tanış’ bir Abdal hikayesi ile sahneye çıkıyor.",
-                            EndDate = new DateTime(2023, 12, 2, 22, 29, 49, 493, DateTimeKind.Utc).AddTicks(7046),
+                            EndDate = new DateTime(2023, 12, 3, 8, 12, 57, 895, DateTimeKind.Utc).AddTicks(7016),
                             IsFree = true,
                             Name = "Fırat Tanış ile Gelin Tanış Olalım Oyunu",
-                            OrganizerId = new Guid("fe796e28-329c-4d71-bcfe-97c70e913b4e"),
+                            OrganiserId = new Guid("fe796e28-329c-4d71-bcfe-97c70e913b4e"),
                             PopularityCount = 0L,
-                            StartDate = new DateTime(2023, 12, 2, 22, 29, 49, 493, DateTimeKind.Utc).AddTicks(7046),
+                            StartDate = new DateTime(2023, 12, 3, 8, 12, 57, 895, DateTimeKind.Utc).AddTicks(7015),
                             TicketCount = 500,
                             VenueId = new Guid("2449f9f5-31b8-4cc4-a80d-815923e121ca"),
                             IsSeatedEvent = true
@@ -271,9 +271,9 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Organizer", "Organizer")
+                    b.HasOne("Domain.Entities.Organiser", "Organiser")
                         .WithMany("Events")
-                        .HasForeignKey("OrganizerId")
+                        .HasForeignKey("OrganiserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -285,7 +285,7 @@ namespace Infrastructure.Migrations
 
                     b.Navigation("Category");
 
-                    b.Navigation("Organizer");
+                    b.Navigation("Organiser");
 
                     b.Navigation("Venue");
                 });
@@ -329,7 +329,7 @@ namespace Infrastructure.Migrations
                     b.Navigation("Images");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Organizer", b =>
+            modelBuilder.Entity("Domain.Entities.Organiser", b =>
                 {
                     b.Navigation("Events");
                 });

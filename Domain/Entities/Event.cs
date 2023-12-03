@@ -16,10 +16,10 @@ namespace Domain.Entities
         public long PopularityCount { get; set; }
         public IEnumerable<EventImage>? Images { get; set; }
         public Guid CategoryId { get; set; }
-        public Guid OrganizerId { get; set; }
+        public Guid OrganiserId { get; set; }
         public Guid VenueId { get; set; }
         public Category? Category { get; set; }
-        public Organizer? Organizer { get; set; }
+        public Organiser? Organiser { get; set; }
         public Venue? Venue { get; set; }
     }
 

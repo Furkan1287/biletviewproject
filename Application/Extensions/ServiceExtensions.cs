@@ -25,8 +25,8 @@ namespace Application.Extensions
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IGenericRepositoryAsync<Category>, GenericRepositoryBaseAsync<Category, ApplicationDbContext>>();
 
-            services.AddScoped<IOrganizerService, OrganizerService>();
-            services.AddScoped<IGenericRepositoryAsync<Organizer>, GenericRepositoryBaseAsync<Organizer, ApplicationDbContext>>();
+            services.AddScoped<IOrganiserService, OrganiserService>();
+            services.AddScoped<IGenericRepositoryAsync<Organiser>, GenericRepositoryBaseAsync<Organiser, ApplicationDbContext>>();
 
             services.AddScoped<IVenueService, VenueService>();
             services.AddScoped<IGenericRepositoryAsync<Venue>, GenericRepositoryBaseAsync<Venue, ApplicationDbContext>>();

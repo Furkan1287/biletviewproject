@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -29,16 +29,16 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Organizers",
+                name: "Organisers",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    OrganizerName = table.Column<string>(type: "text", nullable: false),
+                    OrganiserName = table.Column<string>(type: "text", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Organizers", x => x.Id);
+                    table.PrimaryKey("PK_Organisers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -71,7 +71,7 @@ namespace Infrastructure.Migrations
                     IsFree = table.Column<bool>(type: "boolean", nullable: false),
                     PopularityCount = table.Column<long>(type: "bigint", nullable: false),
                     CategoryId = table.Column<Guid>(type: "uuid", nullable: false),
-                    OrganizerId = table.Column<Guid>(type: "uuid", nullable: false),
+                    OrganiserId = table.Column<Guid>(type: "uuid", nullable: false),
                     VenueId = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
@@ -85,9 +85,9 @@ namespace Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Events_Organizers_OrganizerId",
-                        column: x => x.OrganizerId,
-                        principalTable: "Organizers",
+                        name: "FK_Events_Organisers_OrganiserId",
+                        column: x => x.OrganiserId,
+                        principalTable: "Organisers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -159,30 +159,30 @@ namespace Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "Id", "CategoryName", "CreatedDate" },
-                values: new object[] { new Guid("3addf918-37e5-4b06-9ffc-17af03ec7878"), "Tiyatro", new DateTime(2023, 12, 2, 22, 29, 49, 491, DateTimeKind.Utc).AddTicks(7651) });
+                values: new object[] { new Guid("3addf918-37e5-4b06-9ffc-17af03ec7878"), "Tiyatro", new DateTime(2023, 12, 3, 8, 12, 57, 893, DateTimeKind.Utc).AddTicks(7671) });
 
             migrationBuilder.InsertData(
-                table: "Organizers",
-                columns: new[] { "Id", "CreatedDate", "OrganizerName" },
-                values: new object[] { new Guid("fe796e28-329c-4d71-bcfe-97c70e913b4e"), new DateTime(2023, 12, 2, 22, 29, 49, 491, DateTimeKind.Utc).AddTicks(8129), "Fırat Tanış" });
+                table: "Organisers",
+                columns: new[] { "Id", "CreatedDate", "OrganiserName" },
+                values: new object[] { new Guid("fe796e28-329c-4d71-bcfe-97c70e913b4e"), new DateTime(2023, 12, 3, 8, 12, 57, 893, DateTimeKind.Utc).AddTicks(8163), "Fırat Tanış" });
 
             migrationBuilder.InsertData(
                 table: "Venues",
                 columns: new[] { "Id", "Address", "CreatedDate", "District", "GoogleMapsSrc", "Province", "VenueName" },
-                values: new object[] { new Guid("2449f9f5-31b8-4cc4-a80d-815923e121ca"), "Kuştepe, Kuştepe Trump Alışveriş Merkezi, Mecidiyeköy Yolu Cd. No:12, 34387", new DateTime(2023, 12, 2, 22, 29, 49, 491, DateTimeKind.Utc).AddTicks(8698), "Şişli", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3007.9481497843817!2d28.99002567656014!3d41.070126015613425!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cab6fbf4fb50f5%3A0x2c60541c9e93c923!2sTrump%20K%C3%BClt%C3%BCr%20Ve%20G%C3%B6steri%20Merkezi!5e0!3m2!1str!2str!4v1701547065585!5m2!1str!2str\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>", "İstanbul", "Trump Sahne" });
+                values: new object[] { new Guid("2449f9f5-31b8-4cc4-a80d-815923e121ca"), "Kuştepe, Kuştepe Trump Alışveriş Merkezi, Mecidiyeköy Yolu Cd. No:12, 34387", new DateTime(2023, 12, 3, 8, 12, 57, 893, DateTimeKind.Utc).AddTicks(8531), "Şişli", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3007.9481497843817!2d28.99002567656014!3d41.070126015613425!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cab6fbf4fb50f5%3A0x2c60541c9e93c923!2sTrump%20K%C3%BClt%C3%BCr%20Ve%20G%C3%B6steri%20Merkezi!5e0!3m2!1str!2str!4v1701547065585!5m2!1str!2str\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>", "İstanbul", "Trump Sahne" });
 
             migrationBuilder.InsertData(
                 table: "Events",
-                columns: new[] { "Id", "CategoryId", "CreatedDate", "Description", "EndDate", "IsFree", "Name", "OrganizerId", "PopularityCount", "StartDate", "TicketCount", "VenueId" },
-                values: new object[] { new Guid("aa28c74d-c83b-47d0-936d-7d57072d6cd8"), new Guid("3addf918-37e5-4b06-9ffc-17af03ec7878"), new DateTime(2023, 12, 2, 22, 29, 49, 493, DateTimeKind.Utc).AddTicks(7044), "Semih Çelenk’in yazdığı ve yönettiği “Gelin Tanış Olalım”da Fırat Tanış’ bir Abdal hikayesi ile sahneye çıkıyor.", new DateTime(2023, 12, 2, 22, 29, 49, 493, DateTimeKind.Utc).AddTicks(7046), true, "Fırat Tanış ile Gelin Tanış Olalım Oyunu", new Guid("fe796e28-329c-4d71-bcfe-97c70e913b4e"), 0L, new DateTime(2023, 12, 2, 22, 29, 49, 493, DateTimeKind.Utc).AddTicks(7046), 500, new Guid("2449f9f5-31b8-4cc4-a80d-815923e121ca") });
+                columns: new[] { "Id", "CategoryId", "CreatedDate", "Description", "EndDate", "IsFree", "Name", "OrganiserId", "PopularityCount", "StartDate", "TicketCount", "VenueId" },
+                values: new object[] { new Guid("aa28c74d-c83b-47d0-936d-7d57072d6cd8"), new Guid("3addf918-37e5-4b06-9ffc-17af03ec7878"), new DateTime(2023, 12, 3, 8, 12, 57, 895, DateTimeKind.Utc).AddTicks(7014), "Semih Çelenk’in yazdığı ve yönettiği “Gelin Tanış Olalım”da Fırat Tanış’ bir Abdal hikayesi ile sahneye çıkıyor.", new DateTime(2023, 12, 3, 8, 12, 57, 895, DateTimeKind.Utc).AddTicks(7016), true, "Fırat Tanış ile Gelin Tanış Olalım Oyunu", new Guid("fe796e28-329c-4d71-bcfe-97c70e913b4e"), 0L, new DateTime(2023, 12, 3, 8, 12, 57, 895, DateTimeKind.Utc).AddTicks(7015), 500, new Guid("2449f9f5-31b8-4cc4-a80d-815923e121ca") });
 
             migrationBuilder.InsertData(
                 table: "EventImages",
                 columns: new[] { "Id", "CreatedDate", "EventId", "ImageUrl" },
                 values: new object[,]
                 {
-                    { new Guid("495400ec-7296-415d-8614-9e2aaf955b4f"), new DateTime(2023, 12, 2, 22, 29, 49, 491, DateTimeKind.Utc).AddTicks(9211), new Guid("aa28c74d-c83b-47d0-936d-7d57072d6cd8"), "/images/495400ec7296415d86149e2aaf955b4f.jpg" },
-                    { new Guid("afcddc37-e2cc-4700-881c-189a9df99545"), new DateTime(2023, 12, 2, 22, 29, 49, 491, DateTimeKind.Utc).AddTicks(9216), new Guid("aa28c74d-c83b-47d0-936d-7d57072d6cd8"), "/images/afcddc37e2cc4700881c189a9df99545.jpg" }
+                    { new Guid("495400ec-7296-415d-8614-9e2aaf955b4f"), new DateTime(2023, 12, 3, 8, 12, 57, 893, DateTimeKind.Utc).AddTicks(9023), new Guid("aa28c74d-c83b-47d0-936d-7d57072d6cd8"), "/images/495400ec7296415d86149e2aaf955b4f.jpg" },
+                    { new Guid("afcddc37-e2cc-4700-881c-189a9df99545"), new DateTime(2023, 12, 3, 8, 12, 57, 893, DateTimeKind.Utc).AddTicks(9027), new Guid("aa28c74d-c83b-47d0-936d-7d57072d6cd8"), "/images/afcddc37e2cc4700881c189a9df99545.jpg" }
                 });
 
             migrationBuilder.InsertData(
@@ -201,9 +201,9 @@ namespace Infrastructure.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Events_OrganizerId",
+                name: "IX_Events_OrganiserId",
                 table: "Events",
-                column: "OrganizerId");
+                column: "OrganiserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Events_VenueId",
@@ -230,7 +230,7 @@ namespace Infrastructure.Migrations
                 name: "Categories");
 
             migrationBuilder.DropTable(
-                name: "Organizers");
+                name: "Organisers");
 
             migrationBuilder.DropTable(
                 name: "Venues");

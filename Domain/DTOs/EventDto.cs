@@ -12,7 +12,7 @@ namespace Domain.DTOs
         public int TicketCount { get; set; }
         public bool IsFree { get; set; }
         public Guid CategoryId { get; set; }
-        public Guid OrganizerId { get; set; }
+        public Guid OrganiserId { get; set; }
         public Guid VenueId { get; set; }
     }
 
@@ -28,7 +28,7 @@ namespace Domain.DTOs
         public bool IsFree { get; set; }
         public long PopularityCount { get; set; }
         public CategoryDetailDto Category { get; set; }
-        public OrganizerDetailDto Organizer { get; set; }
+        public OrganiserDetailDto Organiser { get; set; }
         public VenueDetailDto Venue { get; set; }
         public List<EventImageDetailDto> Images { get; set; }
         

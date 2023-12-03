@@ -12,14 +12,14 @@ namespace Infrastructure
         }
         public DbSet<Event> Events { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Organizer> Organizers { get; set; }
+        public DbSet<Organiser> Organisers { get; set; }
         public DbSet<Venue> Venues { get; set; }
         public DbSet<EventImage> EventImages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new CategoryEntityTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new OrganizerEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new OrganiserEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new VenueEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new EventImageEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new EventEntityTypeConfiguration());

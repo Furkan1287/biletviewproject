@@ -2,9 +2,9 @@
 
 namespace Domain.Entities
 {
-    public class Organizer : BaseEntity
+    public class Organiser : BaseEntity
     {
-        public string OrganizerName { get; set; }
+        public string OrganiserName { get; set; }
         public IEnumerable<Event>? Events { get; set; }
     }
 }
